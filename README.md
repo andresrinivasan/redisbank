@@ -71,7 +71,7 @@ Note: project is compiled with JDK11 as that's currently the max LTS version tha
 
 ## Running on Kubernetes as a Deployment
 
-> &#0372335; This shows GKE; the pattern will work anywhere
+> :point-right: This shows GKE; the pattern will work anywhere
 
 ### Create a Docker image for a GKE Deployment
 
