@@ -57,13 +57,51 @@ stomp.protocol=wss
 6. Rebuild the app using `./mvnw package`
 7. Deploy the app to Azure Spring Cloud using `az spring-cloud app deploy -n acrebankapp -s acrebank -g rdsLroAcre --jar-path target/redisbank-0.0.1-SNAPSHOT.jar`
 
-## Troubleshooting tips on Azure Spring Cloud
+### Troubleshooting tips on Azure Spring Cloud
 
 To get the application logs:
 
 `az spring-cloud app logs -n acrebankapp -g rdsLroAcre -s acrebank`
 
 Note: project is compiled with JDK11 as that's currently the max LTS version that's supported by Azure Spring Cloud. Project will run fine when running locally or on other platforms up to JDK16.
+
+## Running on OpenShift via S2I
+
+[OpenShift via S2I](./openshift/README.md)
+
+## Running on Kubernetes as a Deployment
+
+> &#0372335; This shows GKE; the pattern will work anywhere
+
+### Create a Docker image for a GKE Deployment
+
+The Docker image created by [Dockerfile](../Dockerfile) can be pushed to the GCP image repository (e.g. gcr.io) and then referenced in a [Deployment](../deploy-on-k8s.yaml).
+
+### Set up a GKE Cluster with a REC and a REDB
+
+See [Getting Started with GKE](https://redislabs.atlassian.net/wiki/spaces/SA/pages/1405911108/Getting+Started+with+GKE) in the SA Wiki.
+
+### Download Docker OAuth credentials for gcr.io
+
+`gcloud auth configure-docker gcr.io`
+
+### Build and Push the redis-bank Image
+
+From the root of this repo
+
+```
+docker build -t redisbank .
+docker tag redisbank gcr.io/central-beach-194106/YOUR-NAME/redisbank
+docker push gcr.io/central-beach-194106/YOUR-NAME/redisbank
+```
+
+### Create the Deployment
+
+Add `gcr.io/central-beach-194106/YOUR-NAME/redisbank` to [deploy-on-k8s.yaml](../deploy-on-k8s.yaml). Then apply the resource with 
+
+```
+kubectl apply -f deploy-on-k8s.yaml
+```
 
 ## Known issues
 
