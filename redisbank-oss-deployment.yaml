@@ -13,9 +13,26 @@ spec:
         app: redisbank
     spec:
       containers:
+      - name: redis-oss
+        image: redislabs/redismod:latest
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - "6379:6379"
       - name: redisbank
-        image: <yourimageurl>
-        imagePullPolicy: Always
+        image: YOUR-IMAGE-URL
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
         ports:
         - name: redisbank
           containerPort: 8080

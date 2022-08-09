@@ -67,43 +67,54 @@ Note: project is compiled with JDK11 as that's currently the max LTS version tha
 
 ## Running on OpenShift via S2I
 
-[OpenShift via S2I](./openshift/README.md)
+Please see [OpenShift via S2I](./openshift/README.md).
 
 ## Running on Kubernetes as a Deployment
 
->  👉 This shows GKE; the pattern will work anywhere
+As a more generic Kubernetes strategy, a Kubernetes Deployment is used to create the pods for RedisBank. The RedisBank Docker image created by [Dockerfile](./Dockerfile) is pushed to a repository. The image is then referenced in a that either also creates a Pod for Redis OSS or is dependent on Redis Enterprise deployed via the [Redis Enterprise Operator](https://docs.redis.com/latest/kubernetes/).
+
+➤ This shows using GCP and GKE; the pattern will work anywhere
 
 ### Create a Docker image for a GKE Deployment
 
-The Docker image created by [Dockerfile](../Dockerfile) can be pushed to the GCP image repository (e.g. gcr.io) and then referenced in a [Deployment](../deploy-on-k8s.yaml).
+Create the Docker image and push it to your favorite repository. In this example we'll use Google Container Repository (GCR). First you'll need to add the OAuth credentials to Docker with 
 
-### Set up a GKE Cluster with a REC and a REDB
+```
+gcloud auth configure-docker gcr.io
+```
 
-See [Getting Started with GKE](https://redislabs.atlassian.net/wiki/spaces/SA/pages/1405911108/Getting+Started+with+GKE) in the SA Wiki.
-
-### Download Docker OAuth credentials for gcr.io
-
-`gcloud auth configure-docker gcr.io`
-
-### Build and Push the redis-bank Image
-
-From the root of this repo
+and then push the image with
 
 ```
 docker build -t redisbank .
-docker tag redisbank gcr.io/central-beach-194106/YOUR-NAME/redisbank
-docker push gcr.io/central-beach-194106/YOUR-NAME/redisbank
+docker tag redisbank gcr.io/YOUR-GCP-PROJECT/redisbank
+docker push gcr.io/YOUR-GCP-PROJECT/redisbank
 ```
+
+### Set up a GKE Cluster
+
+It is left as an excercise to the reader to setup GKE.
+
+For Redis OSS, you can fit everything on a single node. For Redis Enterprise, please create at least a 4 node cluster; 3 nodes will be used for Redis Enterprise and 1 node will be used for the app.
+
+### Create the Redis Enterprise Database using the Redis Operator 
+
+If you're using Redis OSS, please skip to the next section.
+...
 
 ### Create the Deployment
 
-Add `gcr.io/central-beach-194106/YOUR-NAME/redisbank` to [deploy-on-k8s.yaml](../deploy-on-k8s.yaml). Then apply the resource with 
+Replace YOUR-IMAGE-HERE in the deployment YAML with `gcr.io/YOUR-GCP-PROJECT/redisbank`
+...XXX
+ to [deploy-on-k8s.yaml](./deploy-on-k8s.yaml). Then apply the resource with 
 
 ```
-kubectl apply -f deploy-on-k8s.yaml
+kubectl apply -f ...XXX
 ```
 
-## Known issues
+## V.next
 
 1. Thread safety. Data is currently generated off of a single stream of transactions, which means it's the same for all users. Not a problem with the current iteration because it's single user, but beware when expanding this to multi-user.
-2. Hardcoded values. Code uses hardcoded values throughout the code, these need to be replaced with proper variables.
+1. Hardcoded values. Code uses hardcoded values throughout the code, these need to be replaced with proper variables.
+1. Update to Redis Stack
+1. Add Redis Insight
