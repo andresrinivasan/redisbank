@@ -19,10 +19,12 @@ Features in this demo:
 
 ## Prerequisites
 
-1. JDK 17 or higher (https://openjdk.java.net/install/index.html)
+1. JDK 17 or higher (https://openjdk.java.net/install/index.html). Not needed if you're using Docker.
+1. Maven. Not needed if you're using Docker.
 2. Docker Desktop (https://www.docker.com/products/docker-desktop), or Colima with a docker/k8s/containerd runtime
 3. For running on Azure only: Azure CLI (https://docs.microsoft.com/en-us/cli/azure/install-azure-cli)
 4. For running on Azure only: Azure Spring Cloud extension for the Azure CLI (https://docs.microsoft.com/en-us/cli/azure/spring-cloud?view=azure-cli-latest)
+4. For running on Kubernetes: a Kubernetes cluster
 
 ## Running locally
 
