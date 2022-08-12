@@ -25,7 +25,7 @@ spec:
         ports:
         - name: redisbank
           containerPort: 8080
-        env:                        ## Set app environment variables from redb secrets
+        env:                        ## Set app environment variables from REDB secrets
         - name: SPRING_REDIS_HOST
           valueFrom:
             secretKeyRef:

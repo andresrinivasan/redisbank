@@ -20,18 +20,18 @@ Features in this demo:
 
 1. JDK 17 or higher (<https://openjdk.java.net/install/index.html>). Not needed if you're using Docker.
 1. Maven. Not needed if you're using Docker.
-2. Docker Desktop (<https://www.docker.com/products/docker-desktop>), or Colima with a docker/k8s/containerd runtime
-3. For running on Azure only: Azure CLI (<https://docs.microsoft.com/en-us/cli/azure/install-azure-cli>)
-4. For running on Azure only: Azure Spring Cloud extension for the Azure CLI (<https://docs.microsoft.com/en-us/cli/azure/spring-cloud?view=azure-cli-latest>)
-4. For running on Kubernetes: a Kubernetes cluster
+1. Docker Desktop (<https://www.docker.com/products/docker-desktop>), or Colima with a docker/k8s/containerd runtime
+1. For running on Azure only: Azure CLI (<https://docs.microsoft.com/en-us/cli/azure/install-azure-cli>)
+1. For running on Azure only: Azure Spring Cloud extension for the Azure CLI (<https://docs.microsoft.com/en-us/cli/azure/spring-cloud?view=azure-cli-latest>)
+1. For running on Kubernetes: a Kubernetes cluster
 
 ## Running locally
 
 1. Checkout the project
-2. `docker-compose.sh up`
-3. Navigate to <http://localhost:8080>
-3. Login with user `lars` and password `larsje`
-4. Stop and clean with `docker-compose down -v --rmi local --remove-orphans`
+1. `docker-compose.sh up`
+1. Navigate to <http://localhost:8080>
+1. Login with user `lars` and password `larsje`
+1. Stop and clean with `docker-compose down -v --rmi local --remove-orphans`
 
 ## Running on Azure Spring Cloud
 
